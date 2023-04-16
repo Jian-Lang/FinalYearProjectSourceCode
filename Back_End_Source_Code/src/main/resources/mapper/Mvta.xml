@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.MvtaMapper">
+    <update id="save_msg">
+        update mvta set questionnaire1 = #{questionnaire1}, questionnaire2 = #{questionnaire2},
+        questionnaire3 = #{questionnaire3},questionnaire4 = #{questionnaire4},
+        questionnaire5 = #{questionnaire5}, questionnaire6 = #{questionnaire6},
+        questionnaire7 = #{questionnaire7},questionnaire8 = #{questionnaire8},
+        questionnaire9 = #{questionnaire9},questionnaire10 = #{questionnaire10},
+        questionnaire11 = #{questionnaire11},questionnaire12 = #{questionnaire12},
+        questionnaire13 = #{questionnaire13},questionnaire14 = #{questionnaire14},
+        questionnaire15 = #{questionnaire15},intention1 = #{intention1},intention2 = #{intention2},
+        intention3 = #{intention3},intention4 = #{intention4},intention5 = #{intention5},has_finished_msg = 1
+        where student_number = #{student_number}
+    </update>
+
+    <insert id="save">
+        insert into mvta(student_number, student_name, lab, course,teacher_number,group_number)
+        values(#{student_number},#{student_name},#{lab},#{course},#{teacher_number},#{group_number})
+    </insert>
+
+    <select id="getByStudentNumber" resultType="com.example.springboot.entity.Mvta">
+        select * from mvta where student_number = #{studentNumber}
+    </select>
+
+    <update id="save_res">
+        update mvta set time = #{time},operate_count = #{operate_count},error_count = #{error_count},tips_count = #{tips_count}, grade = #{grade}
+        where student_number = #{student_number} and course = #{course} and lab = #{lab}
+    </update>
+
+    <update id="save_dist">
+        update mvta set distribution1 = #{distribution1},distribution2 = #{distribution2},
+        distribution3 = #{distribution3},distribution4 = #{distribution4},
+        distribution5 = #{distribution5},has_finished_dis = #{has_finished_dis}
+        where student_number = #{student_number}
+    </update>
+
+    <select id="get_num_in_group_by_student_number" resultType="int">
+        SELECT COUNT(*) FROM mvta WHERE group_number = #{group_number};
+    </select>
+
+    <select id="get_finished_num" resultType="int">
+
+        SELECT COUNT(*) FROM mvta WHERE group_number = #{group_number} and has_finished_msg = 1;
+    </select>
+
+
+
+    <select id="listByGroupNumber" resultType="com.example.springboot.entity.Mvta">
+        select * from mvta where group_number = #{group_number}
+    </select>
+
+
+<!--    save_groupNumber-->
+    <update id="save_groupNumber">
+        update mvta set group_number = #{group_number}
+        where student_number = #{student_number}
+    </update>
+
+
+    <select id="get_num_in_group_by_group_number" resultType="int">
+        SELECT COUNT(*) FROM mvta WHERE group_number = #{groupNumber};
+    </select>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Mvta">
+        select student_number,student_name,lab,course,group_number,time,operate_count,error_count,tips_count,grade from mvta
+        <where>
+            <if test="course != null and course != ''">
+                course like concat('%',#{course},'%')
+            </if>
+            <if test="lab != null and lab != ''">
+                and lab like concat('%',#{lab},'%')
+            </if>
+            <if test="teacher_number != null and teacher_number != ''">
+                and teacher_number like concat('%',#{teacher_number},'%')
+            </if>
+            <if test="student_number != null and student_number != ''">
+                and student_number like concat('%',#{student_number},'%')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

@@ -1,0 +1,23 @@
+server:
+  port: 9090
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/Virtual-experiment-cloud-service-platform?serverTimeZone=GMT%2b8 #????
+    username: root
+    password: 123456
+
+# 告诉Springboot，配置的位置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #配置之后，可以看mybatis查询数据库的日志
+
+ali:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    accessKeyId: LTAI5t83CnEwtr4DpaqGe2YW
+    accessKeySecret: ivwyvuKavVoRHY0NL9lfOLCiYUFZZM
+    bucketName: kilogod
+    imagePathPrefix: file/

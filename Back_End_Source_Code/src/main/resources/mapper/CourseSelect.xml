@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.CourseSelectMapper">
+
+    <insert id="save">
+        insert into course_select(student_number,student_name,course,teacher_number,teacher_name)
+        values(#{student_number},#{student_name},#{course},#{teacher_number},#{teacher_name})
+    </insert>
+
+    <delete id="deleteByStudentNumberAndCourse">
+        delete from course_select where student_number = #{studentNumber} and course = #{course}
+    </delete>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.CourseSelect">
+        select * from course_select
+        <where>
+            <if test="student_number != null and student_number != ''">
+                student_number like concat('%',#{student_number},'%')
+            </if>
+            <if test="student_name != null and student_name != ''">
+                and student_name like concat('%',#{student_name},'%')
+            </if>
+        </where>
+        order by createtime desc
+    </select>
+    <select id="listByTeacherNumber" resultType="com.example.springboot.controller.dto.CourseListDTO">
+        select distinct course from course_select
+        where teacher_number = #{teacher_number}
+    </select>
+
+    <select id="countByTeacherNumberAndCourse" resultType="Integer">
+        SELECT COUNT(*) FROM course_select WHERE teacher_number = #{teacherNumber} and course = #{course};
+    </select>
+
+
+</mapper>
+
+
+
+

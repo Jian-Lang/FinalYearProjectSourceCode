@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.StudentMapper">
+
+    <select id="getByStudentNumberAndPassword" resultType="com.example.springboot.entity.Student">
+        select * from student where student_number = #{student_number} and password = #{password}
+    </select>
+
+    <insert id="save">
+        insert into student(student_number,student_name,password)
+        values(#{student_number},#{student_name},#{password})
+    </insert>
+
+    <delete id="deleteByStudentNumber">
+        delete from student where student_number = #{studentNumber}
+    </delete>
+
+    <update id="updateByStudentNumber">
+        update student set student_name = #{student_name}, password = #{password},updatetime = #{updatetime} where student_number = #{student_number}
+    </update>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Student">
+        select * from student
+        <where>
+            <if test="student_number != null and student_number != ''">
+                student_number like concat('%',#{student_number},'%')
+            </if>
+            <if test="student_name != null and student_name != ''">
+                and student_name like concat('%',#{student_name},'%')
+            </if>
+        </where>
+        order by student_number
+    </select>
+
+    <select id="getByStudentNumber" resultType="com.example.springboot.entity.Student">
+        select * from student where student_number = #{studentNumber}
+    </select>
+
+</mapper>

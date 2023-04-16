@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.TeacherMapper">
+
+    <select id="getByTeacherNumberAndPassword" resultType="com.example.springboot.entity.Teacher">
+        select * from teacher where teacher_number = #{teacher_number} and password = #{password}
+    </select>
+
+    <insert id="save">
+        insert into teacher(teacher_number,teacher_name,password,phone,email)
+        values(#{teacher_number},#{teacher_name},#{password},#{phone},#{email})
+    </insert>
+
+    <delete id="deleteByTeacherNumber">
+        delete from teacher where teacher_number = #{teacherNumber}
+    </delete>
+
+    <update id="updateByTeacherNumber">
+        update teacher set teacher_name = #{teacher_name}, password = #{password},phone = #{phone},email = #{email},updatetime = #{updatetime} where teacher_number = #{teacher_number}
+    </update>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Teacher">
+        select * from teacher
+        <where>
+            <if test="teacher_number != null and teacher_number != ''">
+                teacher_number like concat('%',#{teacher_number},'%')
+            </if>
+            <if test="teacher_name != null and teacher_name != ''">
+                and teacher_name like concat('%',#{teacher_name},'%')
+            </if>
+        </where>
+        order by teacher_number
+    </select>
+
+    <select id="getByTeacherNumber" resultType="com.example.springboot.entity.Teacher">
+        select * from teacher where teacher_number = #{teacherNumber}
+    </select>
+
+
+</mapper>

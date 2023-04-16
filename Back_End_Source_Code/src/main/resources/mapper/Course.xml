@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.CourseMapper">
+
+    <insert id="save">
+        insert into course(student_number,student_name,grade,course,teacher_number,teacher_name)
+        values(#{student_number},#{student_name},#{grade},#{course},#{teacher_number},#{teacher_name})
+    </insert>
+
+    <delete id="deleteByStudentNumberAndCourse">
+        delete from course where student_number = #{studentNumber} and course = #{course}
+    </delete>
+
+    <update id="updateByStudentNumberAndCourse">
+        update course set grade = #{grade} where student_number = #{student_number} and course = #{course}
+    </update>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Course">
+        select * from course
+        <where>
+            <if test="teacher_number != null and teacher_number != ''">
+                teacher_number like concat('%',#{teacher_number},'%')
+            </if>
+            <if test="student_number != null and student_number != ''">
+                and student_number like concat('%',#{student_number},'%')
+            </if>
+            <if test="student_name != null and student_name != ''">
+                and student_name like concat('%',#{student_name},'%')
+            </if>
+        </where>
+        order by student_number
+    </select>
+
+    <select id="getByStudentNumberAndCourse" resultType="com.example.springboot.entity.Course">
+        select * from course where student_number = #{studentNumber} and course = #{course}
+    </select>
+
+</mapper>
+
+
+
+

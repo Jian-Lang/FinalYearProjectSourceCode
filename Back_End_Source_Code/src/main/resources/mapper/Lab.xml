@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.LabMapper">
+    <insert id="save">
+        insert into lab(course,lab,teacher_number,teacher_name,num_of_group,size_of_group)
+        values(#{course},#{lab},#{teacher_number},#{teacher_name},#{num_of_group},#{size_of_group})
+    </insert>
+
+    <delete id="deleteByTeacherNumberAndCourseAndLab">
+        delete from lab where teacher_number = #{teacherNumber} and course = #{course} and lab = #{lab}
+    </delete>
+
+    <update id="updateSizeOfGroupByTeacherNumberAndCourseAndLab">
+        update lab set size_of_group = #{size_of_group},num_of_group = #{num_of_group} ,updatetime = #{updatetime} where teacher_number = #{teacher_number} and course = #{course} and lab = #{lab}
+    </update>
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Lab">
+        select * from lab
+        <where>
+            <if test="course != null and course != ''">
+                course like concat('%',#{course},'%')
+            </if>
+            <if test="lab != null and lab != ''">
+                and lab like concat('%',#{lab},'%')
+            </if>
+            <if test="teacher_number != null and teacher_number != ''">
+                and teacher_number like concat('%',#{teacher_number},'%')
+            </if>
+            and is_launched = 1
+
+        </where>
+
+    </select>
+
+    <select id="getByTeacherNumberAndCourseAndLab" resultType="com.example.springboot.entity.Lab">
+        select * from lab where teacher_number = #{teacherNumber} and course = #{course} and lab = #{lab}
+    </select>
+
+    <select id="getLab" resultType="String">
+        select lab from lab where teacher_number in (select distinct teacher_number from course_select where student_number = #{studentNumber}) and course in (select distinct course from course_select where student_number = #{studentNumber})
+    </select>
+
+    <select id="listByTeacherNumberAndCourse" resultType="com.example.springboot.controller.dto.LabListDTO">
+        select lab from lab
+        where teacher_number = #{teacherNumber} and course = #{course}
+    </select>
+
+    <update id="updateStateOfGroupByTeacherNumberAndCourseAndLab">
+        update lab set is_launched = #{is_launched} where teacher_number = #{teacher_number} and course = #{course} and lab = #{lab}
+    </update>
+
+
+</mapper>
