@@ -44,7 +44,7 @@
               <i class="el-icon-files"></i>
               <span>非结构化数据管理</span>
             </template>
-            <el-menu-item index="/uploadFile">数据上传</el-menu-item>
+            <el-menu-item index="/uploadFile" :disabled="unstructedDataUploadDisabled">数据上传</el-menu-item>
             <el-menu-item index="/fileList">数据列表</el-menu-item>
           </el-submenu>
 
@@ -122,6 +122,7 @@ export default {
       this.VRLabDisabled = false
       this.VRLabResultDisabled = false
       this.unstructedDataDisabled = false
+      this.unstructedDataUploadDisabled = false
 
     }
     else if(this.identifier == 3){
@@ -129,6 +130,7 @@ export default {
       this.job = "学生"
       this.structedDataDisabled = false
       this.VRLabResultDisabled = false
+      this.unstructedDataDisabled = false
 
     }
   },
@@ -146,7 +148,8 @@ export default {
       addDataDisabled: true,
       courseSelectDisabled: true,
       VRLabDisabled: true,
-      VRLabResultDisabled: true
+      VRLabResultDisabled: true,
+      unstructedDataUploadDisabled : true,
 
     }
   },
